@@ -10,7 +10,8 @@ class Modal extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         //Only update when props (show) are different
-       return nextProps.show !== this.props.show;
+        // Or when the Children Props are different (Order Summary)
+       return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
     } 
 
     componentWillUpdate () {
