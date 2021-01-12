@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Layout from './containers/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import { Route, Switch } from 'react-router-dom';
 import Orders from './containers/Orders/Orders';
+import Auth from './containers/Auth/Auth';
 
 
-class App extends Component {
+const app = props => {
 
   // state = {
   //   show: true
@@ -18,11 +19,11 @@ class App extends Component {
   //     }, 5000)
   //   }
 
-  render() {
     return (
       <div>
       <Layout>
       <Switch>
+        <Route path="/auth" component={Auth}></Route>
         <Route path="/checkout" component={Checkout}></Route>
         <Route path="/orders" component={Orders}></Route>
         <Route path="/" exact component={BurgerBuilder}></Route>
@@ -31,7 +32,6 @@ class App extends Component {
       </Layout>
       </div>
     );
-  }
 }
 
-export default App;
+export default app;

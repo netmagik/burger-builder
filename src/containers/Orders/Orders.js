@@ -1,39 +1,37 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Order from '../../components/Order/Order';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../error/withErrorHandler';
 
-class Orders extends Component {
+const orders = () => {
 
-    state = {
-        orders: [], 
-        loading: true
-    }
+    const initial = [];
+    
+    const [orders, setOrders] = useState(initial);
+    const [loading, setLoading] = useState(true);
 
-    componentDidMount () {
+
+    useEffect(() => {
         axios.get('/orders.json')
-            .then(res => {
-                const fetchedOrders = []
-                for (let key in res.data) {
-                    fetchedOrders.push({
-                        ...res.data[key],
-                        id: key
-                    })
-                }
-                this.setState({loading: false, orders: fetchedOrders})
-            })
-            .catch(err => {
-                this.setState({loading: false})
-            })
-    }
+        .then(res => {
+            const fetchedOrders = []
+            for (let key in res.data) {
+                fetchedOrders.push({
+                    ...res.data[key],
+                    id: key
+                })
+            }
+            setOrders(fetchedOrders);
+            setLoading(false)
+        })
+        .catch(err => {
+            setLoading(false)
+        })
+    }, [])
 
-
-
-
-    render () {
         return (
             <div>
-                {this.state.orders.map(order => (
+                {orders.map(order => (
                     <Order key={order.id} 
                         ingredients={order.ingredients}
                         price={order.price}/>
@@ -41,7 +39,6 @@ class Orders extends Component {
                 
             </div>
         )
-    }
 }
 
-export default withErrorHandler(Orders, axios);
+export default withErrorHandler(orders, axios);
