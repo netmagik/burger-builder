@@ -1,41 +1,17 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment} from 'react';
 import Modal from '../components/UI/Modal/Modal';
-
+import useHttpErrorHandler from '../hooks/http-error-handler';
 
 const withErrorHandler = (WrappedComponent, axios) => {
     return props => {
-
-        const [error, setError] = useState(null);
-
-            const reqInterceptor = axios.interceptors.request.use(req => {
-                setError(null)
-                return req;
-            })
-            const resInterceptor = axios.interceptors.response.use(res => res, err => {
-                setError(err)
-            })
-        
-
-        useEffect(() => {
-            return (props) => {
-            // console.log('Will Unmount', this.requestnterceptor, this.responseInterceptor)
-            axios.interceptors.request.eject(reqInterceptor)
-            axios.interceptors.request.eject(resInterceptor)
-            }
-        }, [reqInterceptor, resInterceptor]);
-
-
-        // When Modal is clicked, clear the Error state
-        const errorConfirmedHandler = () => {
-            setError(null);
-        }
+        const [error, clearError] = useHttpErrorHandler(axios);
 
         return (
             <Fragment>
                 {/* Only show Modal when Error state is NOT null */}
                 <Modal 
                     show={error}
-                    modalClosed={errorConfirmedHandler}>
+                    modalClosed={clearError}>
                     {error ? error.message : null}
                 </Modal>
             <WrappedComponent {...props} />

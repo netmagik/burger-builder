@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import classes from './Auth.css';
 
-class Auth extends Component {
-    state = {
-        controls: {
+const auth = (props) => {
+
+    const [controls, setControls] = useState({
             email: {
                 elementType: 'input',
                 elementConfig: {
@@ -34,11 +34,11 @@ class Auth extends Component {
                 valid: false,
                 touched: false
             }
-        }
-    }
+        })
+
 
     // Check validation of the form entries
-    checkValidity = (value, rules) => {
+    const checkValidity = (value, rules) => {
     let isValid = true;
 
     if (!rules) {
@@ -70,26 +70,24 @@ class Auth extends Component {
      return isValid;
  }
 
-    inputChangedHandler = (event, controlName) => {
+    const inputChangedHandler = (event, controlName) => {
         const updatedControls = {
-            ...this.state.controls,
+            ...controls,
             [controlName]: {
-                ...this.state.controls[controlName],
+                ...controls[controlName],
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
+                valid: checkValidity(event.target.value, controls[controlName].validation),
                 touched: true
             }
         }
-        this.setState({controls: updatedControls})
+        setControls(updatedControls)
     }
 
-    render () {
-
         const formElementsArray = [];
-        for (let key in this.state.controls) {
+        for (let key in controls) {
             formElementsArray.push({
                 id: key,
-                config: this.state.controls[key]
+                config: controls[key]
             });
         }
 
@@ -102,7 +100,7 @@ class Auth extends Component {
                 invalid={!formElement.config.valid}
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
-                changed={(event) => this.inputChangedHandler(event, formElement.id)}
+                changed={(event) => inputChangedHandler(event, formElement.id)}
             />
         ))
 
@@ -118,6 +116,5 @@ class Auth extends Component {
             </div>
         )
     }
-}
 
-export default Auth;
+export default auth;

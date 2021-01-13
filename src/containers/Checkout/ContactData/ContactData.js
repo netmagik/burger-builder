@@ -91,7 +91,7 @@ const contactData = (props) => {
         }
     })
 
-    const [formIsValid, setFormIsValid] = useState(true);
+    const [formIsValid, setFormIsValid] = useState(false);
 
     const [loading, setLoading] = useState(false);
 
@@ -151,7 +151,7 @@ const contactData = (props) => {
         }
 
         if (rules.isEmail) {
-            const pattern =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            const pattern =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
             isValid = pattern.test(value) && isValid;
         }
    
