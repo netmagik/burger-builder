@@ -10,7 +10,7 @@
 /build
 
 # firebase
-/firebase
+/.firebase
 firebase.json
 
 # misc
