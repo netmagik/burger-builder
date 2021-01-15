@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.css';
 import axios from '../../../axios-orders';
@@ -45,7 +45,8 @@ const contactData = (props) => {
             validation: {
                 required: true,
                 minLength: 5,
-                maxLength: 5
+                maxLength: 5,
+                isNumeric: true
             },
             valid: false,
             touched: false
@@ -71,7 +72,8 @@ const contactData = (props) => {
             },
             value: '',
             validation: {
-                required: true
+                required: true,
+                isEmail: true
             },
             valid: false,
             touched: false
@@ -86,8 +88,7 @@ const contactData = (props) => {
             },
             value: 'fastest',
             validation: {},
-            valid: true,
-            touched: false
+            valid: true
         }
     })
 
@@ -129,6 +130,13 @@ const contactData = (props) => {
             config: orderForm[key]
         });
     }
+    // console.log(formElementsArray[0].id)
+
+    // formElementsArray[0].id = React.createRef();
+
+    // useEffect(() => {
+    //     formElementsArray[0].id.current.focus();
+    // }, []);
 
 
     // Check validation of the form entries
@@ -203,13 +211,14 @@ const contactData = (props) => {
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
                 changed={(event) => inputChangedHandler(event, formElement.id)}
+                // ref={formElementsArray[0].id}
             />
 
         ))}
     
         <Button 
             btnType="Success"
-            disabled={!formIsValid}>
+            disabled={formIsValid}>
             ORDER
         </Button>
     </form>
